@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "description": "A webpack plugin to detect unused exports based on webpack's moduleGraph",
   "main": "lib/index.js",
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "example": "npm run build && cd example && npm install && npm run build"

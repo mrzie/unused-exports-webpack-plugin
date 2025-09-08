@@ -1,4 +1,4 @@
-import {Compiler, NormalModule, WebpackPluginInstance , UsageState} from "webpack";
+import type {Compiler, NormalModule, WebpackPluginInstance} from "webpack";
 import {minimatch} from "minimatch";
 
 interface UnusedExportInfo {
@@ -27,6 +27,12 @@ class UnusedExportsPlugin implements WebpackPluginInstance {
     }
 
     apply(compiler: Compiler) {
+        // Dynamically get webpack/rspack API for compatibility with both environments
+        // Priority: compiler.rspack > compiler.webpack > require('webpack')
+        const compilerAny = compiler as any;
+        const webpack = compilerAny.rspack || compiler.webpack || require('webpack');
+        const UsageState = webpack.UsageState;
+
         const unusedExports = new Map();
         compiler.hooks.environment.tap('UnusedExportsPlugin', () => {
             if (!compiler.options.optimization) {
@@ -54,7 +60,6 @@ class UnusedExportsPlugin implements WebpackPluginInstance {
                         continue;
                     }
 
-                    // 跳过非文件模块（比如 runtime 模块）
                     if (
                         this.ignorePaths.some(path =>
                             (path instanceof RegExp ? path.test(normalModule.resource) : minimatch(normalModule.resource, path)),
