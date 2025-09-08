@@ -1,0 +1,35 @@
+{
+  "name": "unused-exports-webpack-plugin",
+  "version": "0.0.1",
+  "description": "A webpack plugin to detect unused exports based on webpack's moduleGraph",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "example": "npm run build && cd example && npm install && npm run build"
+  },
+  "keywords": [
+    "webpack",
+    "plugin",
+    "unused",
+    "exports",
+    "tree-shaking"
+  ],
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^24.3.1",
+    "@types/webpack": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "globals": "^16.3.0",
+    "typescript": "^5.0.0"
+  },
+  "author": "mrzie",
+  "license": "MIT",
+  "dependencies": {
+    "minimatch": "^10.0.3"
+  }
+}

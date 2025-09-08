@@ -1,0 +1,36 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, lts/*]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        webpack-version: [5.x, latest]
+        pnpm-version: [8.x]
+    name: Build on Node ${{matrix.node-version}} Webpack ${{matrix.webpack-version}}
+    runs-on: ${{matrix.os}} 
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.os }}-v${{ matrix.node-version }}-${{ matrix.webpack-version }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{matrix.node-version}}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{matrix.pnpm-version}}
+      - name: Install Webpack
+        run: pnpm i -g webpack@${{matrix.webpack-version}}
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm run build
