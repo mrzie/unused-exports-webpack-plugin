@@ -42,6 +42,26 @@ export default [
     },
   },
   {
+    files: ['tests/**/*.ts'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      'no-unused-vars': 'off',
+    },
+  },
+  {
     files: ['**/*.ts'],
     rules: {
       'no-unused-vars': 'off',
@@ -56,6 +76,7 @@ export default [
       '*.d.ts',
       'dist/',
       'coverage/',
+      'tests/**/fixtures/**',
     ],
   },
 ];
